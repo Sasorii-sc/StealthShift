@@ -122,6 +122,7 @@ You will see a menu:
 ==================================================
 STEALTHSHIFT - PROFILE MANAGEMENT
 ==================================================
+
 1. Create and open new profile (random)
 2. Load and open saved profile
 3. List saved profiles
