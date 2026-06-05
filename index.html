@@ -226,23 +226,23 @@
             min-width: 110px;
         }
 
-.delete-btn {
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    font-size: 0.8rem;
-    transition: all 0.2s ease;
-    color: #dc2626;
-    padding: 6px;
-    position: absolute;
-    bottom: 16px;
-    right: 20px;
-}
+        .delete-btn {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.2s ease;
+            color: #dc2626;
+            padding: 6px;
+            position: absolute;
+            bottom: 16px;
+            right: 20px;
+        }
 
-.delete-btn:hover {
-    color: #b91c1c;
-    transform: scale(1.1);
-}
+        .delete-btn:hover {
+            color: #b91c1c;
+            transform: scale(1.1);
+        }
 
         .bos-mesaj, .yukleniyor {
             text-align: center;
@@ -358,9 +358,10 @@
 
     <script>
         const { exec } = require('child_process');
-        
-        const pythonPath = 'C:\\Users\\Nijeryalibey\\AppData\\Local\\Programs\\Python\\Python312\\python.exe';
-        const scriptPath = 'C:\\Users\\Nijeryalibey\\Desktop\\stealthshift-ui\\StealthShift.py';
+        const path = require('path');
+
+        const pythonPath = 'python';
+        const scriptPath = path.join(__dirname, 'StealthShift.py');
 
         function createBubbles() {
             const ocean = document.querySelector('.ocean');
