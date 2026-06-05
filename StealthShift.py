@@ -40,7 +40,7 @@ def profil_sil(profil_adi):
     print(f"Profil '{profil_adi}' bulunamadi.")
     return False
 
-# -------------------- RASTGELE VERİLER --------------------
+#randoms
 def rastgele_veriler(proxy=None):
     user_agents = [
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/148.0.0.0 Safari/537.36",
@@ -132,7 +132,7 @@ def rastgele_veriler(proxy=None):
     secilen_webgl_vendor = random.choice(webgl_vendor_list)
     secilen_webgl_renderer = random.choice(webgl_renderer_list)
 
-    canvas_gurultu = random.uniform(0.001, 0.005)   # düşük gürültü, dengeli
+    canvas_gurultu = random.uniform(0.001, 0.05)
     audio_gurultu = random.uniform(0.0005, 0.001)
 
     eklentiler = [
@@ -197,7 +197,6 @@ def rastgele_veriler(proxy=None):
         "permissions": izinler
     }
 
-# -------------------- STEALTH JS (GELİŞMİŞ PLUGIN + WEBGL + CANVAS) --------------------
 def generate_stealth_js(veri):
     ua = veri["ua"]
     platform = veri["platform"]
@@ -351,7 +350,7 @@ def generate_stealth_js(veri):
     """
     return js_code
 
-# -------------------- TARAYICI BAŞLATMA --------------------
+#starting the browser
 async def tarayici_baslat(veri, profil_adi=None, proxy=None):
     stealth_js = generate_stealth_js(veri)
 
@@ -426,7 +425,7 @@ async def tarayici_baslat(veri, profil_adi=None, proxy=None):
             await browser.close()
             print("Tarayici tamamen kapatildi.")
 
-# -------------------- TERMİNAL MENÜSÜ --------------------
+#therminal menu
 def ana_menu():
     print("\n" + "="*50)
     print("STEALTHSHIFT - PROFIL YONETIMI")
@@ -496,7 +495,7 @@ async def main():
         else:
             print("Gecersiz secim, tekrar deneyin.")
 
-# -------------------- KOMUT SATIRI ARGÜMANLARI (ELECTRON İÇİN) --------------------
+#electron
 if __name__ == "__main__":
     import sys
     import json
