@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>StealthShift</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .ocean {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            background: linear-gradient(180deg, #0b3d5c 0%, #1a6d8f 40%, #3aa8c5 100%);
+            overflow: hidden;
+        }
+
+        .wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                transparent 0px,
+                transparent 50px,
+                rgba(255, 255, 255, 0.08) 50px,
+                rgba(255, 255, 255, 0.08) 55px
+            );
+            animation: waveMove 8s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        .wave:nth-child(1) {
+            opacity: 0.6;
+            animation-duration: 12s;
+            background: repeating-linear-gradient(
+                transparent 0px,
+                transparent 40px,
+                rgba(255, 255, 255, 0.1) 40px,
+                rgba(255, 255, 255, 0.1) 48px
+            );
+        }
+
+        .wave:nth-child(2) {
+            opacity: 0.4;
+            animation-duration: 18s;
+            animation-direction: reverse;
+            background: repeating-linear-gradient(
+                transparent 0px,
+                transparent 60px,
+                rgba(255, 255, 255, 0.12) 60px,
+                rgba(255, 255, 255, 0.12) 70px
+            );
+        }
+
+        .wave:nth-child(3) {
+            opacity: 0.3;
+            animation-duration: 24s;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent 0px,
+                transparent 80px,
+                rgba(255, 255, 255, 0.08) 80px,
+                rgba(255, 255, 255, 0.08) 90px
+            );
+        }
+
+        @keyframes waveMove {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .light-reflection {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 40%, rgba(255,255,240,0.1) 0%, transparent 60%);
+            animation: lightMove 15s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes lightMove {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.05); }
+        }
+
+        .bubble {
+            position: absolute;
+            bottom: -50px;
+            background: radial-gradient(circle, rgba(255,255,255,0.3), rgba(255,255,255,0));
+            border-radius: 50%;
+            pointer-events: none;
+            animation: bubbleUp 8s linear infinite;
+        }
+
+        @keyframes bubbleUp {
+            0% { transform: translateY(0) scale(0.3); opacity: 0; }
+            10% { opacity: 0.5; }
+            90% { opacity: 0.3; }
+            100% { transform: translateY(-110vh) scale(1); opacity: 0; }
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 45px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: white;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            letter-spacing: 2px;
+        }
+
+        .header p {
+            color: rgba(255,255,255,0.8);
+            margin-top: 10px;
+            font-size: 0.9rem;
+            text-shadow: 0 1px 5px rgba(0,0,0,0.1);
+        }
+
+        .btn-yeni {
+            background-color: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 12px 28px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            margin-bottom: 35px;
+            display: inline-block;
+        }
+
+        .btn-yeni:hover {
+            background-color: rgba(255,255,255,0.25);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .profil-listesi {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .profil-karti {
+            background-color: rgba(255,255,255,0.95);
+            backdrop-filter: blur(5px);
+            border-radius: 20px;
+            padding: 20px 24px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            margin-bottom: 24px;
+            position: relative;
+            animation: neonBorder 3s linear infinite;
+            border: 1px solid #ff0000;
+        }
+
+        @keyframes neonBorder {
+            0% { border-color: #ff0000; box-shadow: 0 0 2px #ff0000, inset 0 0 2px #ff0000; }
+            25% { border-color: #dc2626; box-shadow: 0 0 5px #dc2626, inset 0 0 5px #dc2626; }
+            50% { border-color: #b91c1c; box-shadow: 0 0 8px #b91c1c, inset 0 0 8px #b91c1c; }
+            75% { border-color: #dc2626; box-shadow: 0 0 5px #dc2626, inset 0 0 5px #dc2626; }
+            100% { border-color: #ff0000; box-shadow: 0 0 2px #ff0000, inset 0 0 2px #ff0000; }
+        }
+
+        .profil-karti:last-child {
+            margin-bottom: 0;
+        }
+
+        .profil-karti:hover {
+            transform: translateX(12px);
+            background-color: white;
+            box-shadow: 0 12px 35px rgba(0,0,0,0.2), 0 0 15px #ff0000;
+            border-color: #ff0000;
+            animation: none;
+        }
+
+        .profil-adi {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #0a3e5c;
+            margin-bottom: 12px;
+        }
+
+        .profil-bilgi {
+            font-size: 0.8rem;
+            color: #5a6e7c;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .profil-bilgi .label {
+            font-weight: 600;
+            color: #1a6d8f;
+            min-width: 110px;
+        }
+
+.delete-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: all 0.2s ease;
+    color: #dc2626;
+    padding: 6px;
+    position: absolute;
+    bottom: 16px;
+    right: 20px;
+}
+
+.delete-btn:hover {
+    color: #b91c1c;
+    transform: scale(1.1);
+}
+
+        .bos-mesaj, .yukleniyor {
+            text-align: center;
+            color: rgba(255,255,255,0.9);
+            background-color: rgba(255,255,255,0.12);
+            backdrop-filter: blur(10px);
+            padding: 60px;
+            border-radius: 24px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background-color: #1e3a5f;
+            margin: 20% auto;
+            padding: 30px;
+            border-radius: 20px;
+            width: 400px;
+            text-align: center;
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .modal-content h3 {
+            margin-bottom: 20px;
+        }
+
+        .modal-content input {
+            width: 100%;
+            padding: 12px;
+            margin: 20px 0;
+            border-radius: 10px;
+            border: none;
+            background: white;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+
+        .modal-content button {
+            background-color: #3aa8c5;
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 10px;
+            cursor: pointer;
+            margin: 0 10px;
+            font-size: 1rem;
+            transition: background 0.2s;
+        }
+
+        .modal-content button:hover {
+            background-color: #2a8bb0;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.3);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255,255,255,0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="ocean">
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="light-reflection"></div>
+    </div>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <h3>Create New Profile</h3>
+            <input type="text" id="profilAdi" placeholder="Enter profile name">
+            <div>
+                <button id="modalTamam">OK</button>
+                <button id="modalIptal">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1> StealthShift</h1>
+            <p>Antidetect browser - Privacy in ocean calmness</p>
+        </div>
+
+        <button class="btn-yeni" id="btnYeniProfil">+ New Profile</button>
+
+        <div id="profilListesi">
+            <div class="yukleniyor"> Loading profiles...</div>
+        </div>
+    </div>
+
+    <script>
+        const { exec } = require('child_process');
+        
+        const pythonPath = 'C:\\Users\\Nijeryalibey\\AppData\\Local\\Programs\\Python\\Python312\\python.exe';
+        const scriptPath = 'C:\\Users\\Nijeryalibey\\Desktop\\stealthshift-ui\\StealthShift.py';
+
+        function createBubbles() {
+            const ocean = document.querySelector('.ocean');
+            if (!ocean) return;
+            for (let i = 0; i < 25; i++) {
+                const bubble = document.createElement('div');
+                bubble.className = 'bubble';
+                const size = Math.random() * 15 + 5;
+                bubble.style.width = size + 'px';
+                bubble.style.height = size + 'px';
+                bubble.style.left = Math.random() * 100 + '%';
+                bubble.style.animationDelay = Math.random() * 10 + 's';
+                bubble.style.animationDuration = Math.random() * 6 + 5 + 's';
+                ocean.appendChild(bubble);
+            }
+        }
+
+        function deleteProfile(profileName) {
+            exec(`"${pythonPath}" "${scriptPath}" --delete "${profileName}"`, (err, stdout, stderr) => {
+                if (err) {
+                    alert(`Error deleting profile: ${err.message}`);
+                } else {
+                    try {
+                        const result = JSON.parse(stdout);
+                        if (result.status === 'ok') {
+                            alert(`Profile "${result.adi}" deleted!`);
+                            profilleriListele();
+                        } else {
+                            alert('Failed to delete profile.');
+                        }
+                    } catch(e) {
+                        profilleriListele();
+                    }
+                }
+            });
+        }
+
+        function profilleriListele() {
+            const container = document.getElementById('profilListesi');
+            if (!container) return;
+            container.innerHTML = '<div class="yukleniyor"> Loading profiles...</div>';
+
+            exec(`"${pythonPath}" "${scriptPath}" --list`, (error, stdout, stderr) => {
+                if (error) {
+                    console.error("Listeleme hatasi:", error);
+                    container.innerHTML = '<div class="bos-mesaj"> Error loading profiles.</div>';
+                    return;
+                }
+
+                try {
+                    const profiller = JSON.parse(stdout);
+                    
+                    if (profiller.length === 0) {
+                        container.innerHTML = '<div class="bos-mesaj"> No profiles yet.<br>Click "New Profile" to get started.</div>';
+                        return;
+                    }
+
+                    let html = '';
+                    for (const profil of profiller) {
+                        let kisaUa = profil.ua.substring(0, 55);
+                        if (profil.ua.length > 55) kisaUa += '...';
+                        html += `
+                            <div class="profil-karti" data-profil="${profil.adi}">
+                                <div class="profil-adi">${profil.adi}</div>
+                                <div class="profil-bilgi"><span class="label">Browser</span> ${kisaUa}</div>
+                                <div class="profil-bilgi"><span class="label">Language / Timezone</span> ${profil.dil} / ${profil.tz}</div>
+                                <button class="delete-btn" data-profil="${profil.adi}">🗑️ Delete</button>
+                            </div>
+                        `;
+                    }
+                    container.innerHTML = html;
+
+                    document.querySelectorAll('.profil-karti').forEach(kart => {
+                        kart.addEventListener('click', (e) => {
+                            if (e.target.classList.contains('delete-btn')) return;
+                            const profilAdi = kart.getAttribute('data-profil');
+                            exec(`"${pythonPath}" "${scriptPath}" --open "${profilAdi}"`, (err, out) => {
+                                if (err) {
+                                    alert(`Error opening profile: ${err.message}`);
+                                } else {
+                                    console.log(`Profile opened: ${profilAdi}`);
+                                }
+                            });
+                        });
+                    });
+
+                    document.querySelectorAll('.delete-btn').forEach(btn => {
+                        btn.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            const profilAdi = btn.getAttribute('data-profil');
+                            if (confirm(`Delete profile "${profilAdi}"?`)) {
+                                deleteProfile(profilAdi);
+                            }
+                        });
+                    });
+                } catch(e) {
+                    console.error("JSON parse hatasi:", e);
+                    container.innerHTML = '<div class="bos-mesaj"> Error parsing profile data.</div>';
+                }
+            });
+        }
+
+        const modal = document.getElementById('modal');
+        const profilAdiInput = document.getElementById('profilAdi');
+
+        document.getElementById('btnYeniProfil').addEventListener('click', () => {
+            modal.style.display = 'block';
+            profilAdiInput.value = '';
+            profilAdiInput.focus();
+        });
+
+        document.getElementById('modalTamam').addEventListener('click', () => {
+            const yeniAd = profilAdiInput.value.trim();
+            modal.style.display = 'none';
+            
+            if (yeniAd) {
+                exec(`"${pythonPath}" "${scriptPath}" --create "${yeniAd}"`, (err, stdout, stderr) => {
+                    if (err) {
+                        alert(`Error creating profile: ${err.message}`);
+                    } else {
+                        try {
+                            const sonuc = JSON.parse(stdout);
+                            if (sonuc.status === 'ok') {
+                                alert(` Profile "${sonuc.adi}" created!`);
+                                profilleriListele();
+                            } else {
+                                alert('Failed to create profile.');
+                            }
+                        } catch(e) {
+                            profilleriListele();
+                        }
+                    }
+                });
+            }
+        });
+
+        document.getElementById('modalIptal').addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        };
+
+        createBubbles();
+        profilleriListele();
+    </script>
+
+    <div style="position: fixed; bottom: 5px; left: 0; right: 0; text-align: center; padding: 20px; color: rgba(255,255,255,0.4); font-size: 0.7rem;">
+        © 2026 Sasori
+    </div>
+</body>
+</html>
