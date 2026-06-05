@@ -1,5 +1,7 @@
 # StealthShift
 I`m still working on this project, so do not expect a fully non-detected browser, but this is a good alternative to paid ones.
+Feel free to make a pull request
+
 [Python 3.9+] | [MIT License] | Windows / Linux
 
 StealthShift is a FREE, open-source antidetect browser that randomises your browser fingerprint to bypass tracking, captchas and bot detection. It is a privacy-focused alternative to commercial tools like Dolphin Antidetect.
