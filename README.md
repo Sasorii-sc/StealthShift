@@ -78,6 +78,12 @@ You can edit that file to manually adjust any fingerprint component.
 - Python 3.9 or higher
 - (optional) Node.js and npm – for the Electron UI
 - A Chromium-based browser (Chrome, Brave, Edge) – auto-detected
+- **For Electron UI (desktop application):**
+
+1. Install Node.js from https://nodejs.org/ (if not already installed)
+2. Run these commands in the project folder:
+npm install
+npm start
 
 **Installation**
 
