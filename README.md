@@ -1,4 +1,7 @@
 # StealthShift
+
+DO NOT USE THIS, IM JUST GONNA REPLAN EVERYTHING ABOUT THIS SYSTEM
+
 I`m still working on this project, so do not expect a fully non-detected browser, but this is a good alternative to paid ones.
 Feel free to make a pull request
 
