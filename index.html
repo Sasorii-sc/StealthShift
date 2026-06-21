@@ -424,11 +424,11 @@
                         let kisaUa = profil.ua.substring(0, 55);
                         if (profil.ua.length > 55) kisaUa += '...';
                         html += `
-                            <div class="profil-karti" data-profil="${profil.adi}">
-                                <div class="profil-adi">${profil.adi}</div>
+                            <div class="profil-karti" data-profil="${profil.name}">
+                                <div class="profil-adi">${profil.name}</div>
                                 <div class="profil-bilgi"><span class="label">Browser</span> ${kisaUa}</div>
                                 <div class="profil-bilgi"><span class="label">Language / Timezone</span> ${profil.dil} / ${profil.tz}</div>
-                                <button class="delete-btn" data-profil="${profil.adi}">🗑️ Delete</button>
+                                <button class="delete-btn" data-profil="${profil.name}">🗑️ Delete</button>
                             </div>
                         `;
                     }
